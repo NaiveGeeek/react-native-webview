@@ -275,6 +275,39 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
   @ReactProp(name = "setSupportMultipleWindows")
   public void setSupportMultipleWindows(WebView view, boolean enabled){
     view.getSettings().setSupportMultipleWindows(enabled);
+    view.setWebChromeClient(new WebChromeClient() {
+
+
+        @Override
+        public boolean onCreateWindow(WebView view, boolean isDialog,
+                boolean isUserGesture, Message resultMsg) {
+
+
+
+                WebView newWebView = new WebView();
+                newWebView.getSettings().setJavaScriptEnabled(true);
+                newWebView.getSettings().setSupportZoom(true);
+                newWebView.getSettings().setBuiltInZoomControls(true);
+                // newWebView.getSettings().setPluginState(PluginState.ON);
+                newWebView.getSettings().setSupportMultipleWindows(true);
+                view.addView(newWebView);
+                WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+                transport.setWebView(newWebView);
+                resultMsg.sendToTarget();
+
+                newWebView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+
+                return true;
+            }
+        }
+
+    });
   }
 
   @ReactProp(name = "showsHorizontalScrollIndicator")
