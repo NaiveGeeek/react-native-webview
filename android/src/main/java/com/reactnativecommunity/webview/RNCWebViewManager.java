@@ -1218,7 +1218,6 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
        newWebView.getSettings().setJavaScriptEnabled(true);
        newWebView.getSettings().setSupportZoom(true);
        newWebView.getSettings().setBuiltInZoomControls(true);
-       newWebView.getSettings().setPluginState(PluginState.ON);
        newWebView.getSettings().setSupportMultipleWindows(true);
        view.addView(newWebView);
       final WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
